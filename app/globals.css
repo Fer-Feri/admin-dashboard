@@ -177,6 +177,11 @@
 	/* Accent */
 	--accent: #262626;
 	--accent-foreground: #fafafa;
+
+	/* Form Label styling */
+	label {
+		color: var(--text-primary);
+	}
 }
 
 /* ===========================

@@ -29,13 +29,13 @@ export default function UsersTable({
 								کاربر
 							</th>
 							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
-								ایمیل
-							</th>
-							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
 								نقش
 							</th>
 							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
 								وضعیت
+							</th>
+							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
+								تاریخ عضویت
 							</th>
 							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
 								آخرین ورود

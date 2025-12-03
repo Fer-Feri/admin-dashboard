@@ -28,7 +28,7 @@ export const menuData: MenuItem[] = [
 				id: 'users-add',
 				label: 'افزودن کاربر',
 				icon: 'UserPlus',
-				href: '/dashboard/users/add',
+				href: '/dashboard/users/new',
 			},
 		],
 	},
