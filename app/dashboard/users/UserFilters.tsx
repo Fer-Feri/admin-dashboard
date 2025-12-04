@@ -1,11 +1,13 @@
 'use client';
 
-interface UserFiltersProps {
-	selectedRole: string;
-	onRoleChange: (role: string) => void;
+import { User } from '@/lib/mock-data/users';
 
-	selectedStatus: string;
-	onStatusChange: (status: string) => void;
+interface UserFiltersProps {
+	selectedRole: User['role'] | 'all';
+	onRoleChange: (role: User['role'] | 'all') => void;
+
+	selectedStatus: User['status'] | 'all';
+	onStatusChange: (status: User['status'] | 'all') => void;
 }
 
 export default function UserFilters({
@@ -21,8 +23,8 @@ export default function UserFilters({
 				<select
 					className="w-full py-2 px-3 rounded-lg border border-border bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
 					value={selectedRole}
-					onChange={(e) => onRoleChange(e.target.value)}>
-					<option value="">همه نقش‌ها</option>
+					onChange={(e) => onRoleChange(e.target.value as User['role'] | 'all')}>
+					<option value="all">همه نقش‌ها</option>
 					<option value="admin">مدیر</option>
 					<option value="manager">مدیر کل</option>
 					<option value="user">کاربر</option>
@@ -34,8 +36,8 @@ export default function UserFilters({
 				<select
 					className="w-full py-2 px-3 rounded-lg border border-border bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
 					value={selectedStatus}
-					onChange={(e) => onStatusChange(e.target.value)}>
-					<option value="">همه وضعیت‌ها</option>
+					onChange={(e) => onStatusChange(e.target.value as User['status'] | 'all')}>
+					<option value="all">همه وضعیت‌ها</option>
 					<option value="active">فعال</option>
 					<option value="inactive">غیرفعال</option>
 					<option value="pending">در انتظار</option>

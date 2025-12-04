@@ -7,9 +7,10 @@ import { useState } from 'react';
 
 interface UserRowProps {
 	user: User;
+	onDeleteUser: () => void;
 }
 
-export default function UserRow({ user }: UserRowProps) {
+export default function UserRow({ user, onDeleteUser }: UserRowProps) {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	// ✅ استفاده از دیکشنری‌های مرکزی از mock-data
@@ -100,6 +101,7 @@ export default function UserRow({ user }: UserRowProps) {
 
 					{/* دکمه حذف */}
 					<button
+						onClick={onDeleteUser}
 						className="p-2 hover:bg-bg-secondary rounded-lg transition-colors text-text-secondary hover:text-red-600"
 						title="حذف">
 						<Trash2 className="w-4 h-4" />
