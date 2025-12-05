@@ -1,162 +1,123 @@
 'use client';
 
-import { type AddUserFormData, addUserSchema } from '@/lib/validations/user';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import { User } from '@/lib/mock-data/users';
 
-export default function AddUserForm() {
-	const router = useRouter();
+interface AddUserFormProps {
+	onSave: (user: Omit<User, 'id' | 'createdAt'>) => void;
+	onCancel: () => void;
+}
 
-	const [isSubmitting, setisSubmitting] = useState(false);
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<AddUserFormData>({
-		resolver: zodResolver(addUserSchema),
-		defaultValues: {
-			role: 'User',
-			status: 'active',
-		},
+export default function AddUserForm({ onSave, onCancel }: AddUserFormProps) {
+	const [formData, setFormData] = useState({
+		name: '',
+		email: '',
+		role: 'user' as User['role'],
+		status: 'active' as User['status'],
 	});
 
-	const onSumbit = async (data: AddUserFormData) => {
-		setisSubmitting(true);
+	const [errors, setErrors] = useState({
+		name: '',
+		email: '',
+	});
 
-		console.log('Form Data:', data);
+	const validate = (): boolean => {
+		const newErrors = { name: '', email: '' };
 
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		// ---------------نام----------------
+		if (!formData.name.trim()) newErrors.name = 'نام نمی‌تواند خالی باشد.';
+		else if (formData.name.length < 3) newErrors.name = 'نام باید حداقل 3 کاراکتر باشد.';
 
-		router.push('/dashboard/users');
+		// ---------------ایمیل----------------
+		if (!formData.email.trim()) newErrors.email = 'ایمیل نمی‌تواند خالی باشد.';
+		else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+			newErrors.email = 'فرمت ایمیل معتبر نیست';
+
+		setErrors(newErrors);
+		return newErrors.name === '' && newErrors.email === '';
+	};
+
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		if (validate()) onSave(formData);
+	};
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSumbit)} className="space-y-6">
-			{/* دکمه بازگشت */}
-			<button
-				type="button"
-				onClick={() => router.back()}
-				className="flex items-center gap-2 text-text-tertiary hover:text-gray-400">
-				<ArrowLeft className="w-4 h-4" />
-				بازگشت
-			</button>
+		<div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+			<div className="bg-white dark:bg-gray-800 dark:text-gray-100 rounded-lg p-6 w-full max-w-md shadow-xl">
+				<h2 className="text-xl font-bold mb-4">افزودن کاربر جدید</h2>
 
-			{/* نام کامل */}
-			<div>
-				<label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-					نام کامل <span className="text-red-500">*</span>
-				</label>
-				<input
-					id="name"
-					type="text"
-					{...register('name')}
-					className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-						errors.name ? 'border-red-500' : 'border-gray-300'
-					}`}
-					placeholder="فرشاد بهاری"
-				/>
-				{errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
-			</div>
+				<form onSubmit={handleSubmit} className="space-y-4">
+					<div>
+						<label className="block text-sm font-medium mb-1">نام</label>
+						<input
+							type="text"
+							name="name"
+							value={formData.name}
+							onChange={handleChange}
+							className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none"
+						/>
+						{errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+					</div>
 
-			{/* ایمیل */}
-			<div>
-				<label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-					ایمیل <span className="text-red-500">*</span>
-				</label>
-				<input
-					id="email"
-					type="email"
-					{...register('email')}
-					className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-						errors.email ? 'border-red-500' : 'border-gray-300'
-					}`}
-					placeholder="farshad@example.com"
-					dir="ltr"
-				/>
-				{errors.email && (
-					<p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-				)}
-			</div>
+					<div>
+						<label className="block text-sm font-medium mb-1">ایمیل</label>
+						<input
+							type="email"
+							name="email"
+							value={formData.email}
+							onChange={handleChange}
+							className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none"
+						/>
+						{errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+					</div>
 
-			{/* رمز عبور */}
-			<div>
-				<label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-					رمز عبور <span className="text-red-500">*</span>
-				</label>
-				<input
-					id="password"
-					type="password"
-					{...register('password')}
-					className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-						errors.password ? 'border-red-500' : 'border-gray-300'
-					}`}
-					placeholder="حداقل ۸ کاراکتر"
-					dir="ltr"
-				/>
-				{errors.password && (
-					<p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-				)}
-				<p className="text-gray-500 text-xs mt-1">باید شامل حروف بزرگ، کوچک و عدد باشد</p>
-			</div>
+					<div>
+						<label className="block text-sm font-medium mb-1">نقش</label>
+						<select
+							name="role"
+							value={formData.role}
+							onChange={handleChange}
+							className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600">
+							<option value="user">کاربر</option>
+							<option value="admin">مدیر</option>
+							<option value="manager">مدیر کل</option>
+						</select>
+					</div>
 
-			{/* نقش کاربری */}
-			<div>
-				<label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
-					نقش کاربری <span className="text-red-500">*</span>
-				</label>
-				<select
-					id="role"
-					{...register('role')}
-					className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-						errors.role ? 'border-red-500' : 'border-gray-300'
-					}`}>
-					<option value="User">کاربر</option>
-					<option value="Manager">مدیر</option>
-					<option value="Admin">مدیر کل</option>
-				</select>
-				{errors.role && <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>}
-			</div>
+					<div>
+						<label className="block text-sm font-medium mb-1">وضعیت</label>
+						<select
+							name="status"
+							value={formData.status}
+							onChange={handleChange}
+							className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600">
+							<option value="active">فعال</option>
+							<option value="inactive">غیرفعال</option>
+							<option value="pending">در انتظار</option>
+						</select>
+					</div>
 
-			{/* وضعیت */}
-			<div>
-				<label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
-					وضعیت <span className="text-red-500">*</span>
-				</label>
-				<select
-					id="status"
-					{...register('status')}
-					className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-						errors.status ? 'border-red-500' : 'border-gray-300'
-					}`}>
-					<option value="active">فعال</option>
-					<option value="inactive">غیرفعال</option>
-					<option value="pending">در انتظار تایید</option>
-				</select>
-				{errors.status && (
-					<p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
-				)}
+					<div className="flex justify-end gap-2 pt-4">
+						<button
+							type="button"
+							onClick={onCancel}
+							className="px-4 py-2 border dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+							انصراف
+						</button>
+						<button
+							type="submit"
+							className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+							ذخیره
+						</button>
+					</div>
+				</form>
 			</div>
-
-			{/* دکمه‌های عملیات */}
-			<div className="flex gap-4 pt-4">
-				<button
-					type="submit"
-					disabled={isSubmitting}
-					className="flex-1 bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-					{isSubmitting ? 'در حال ذخیره...' : 'ذخیره کاربر'}
-				</button>
-				<button
-					type="button"
-					disabled={isSubmitting}
-					onClick={() => router.back()}
-					className="flex-1 bg-gray-200 text-gray-700 py-2.5 px-4 rounded-lg hover:bg-gray-300 transition-colors">
-					انصراف
-				</button>
-			</div>
-		</form>
+		</div>
 	);
 }

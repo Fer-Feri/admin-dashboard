@@ -19,7 +19,7 @@ export default function UserFilters({
 	return (
 		<div className="flex items-center gap-4 flex-wrap">
 			{/* فیلتر نقش */}
-			<div className="w-40">
+			<div className="w-36">
 				<select
 					className="w-full py-2 px-3 rounded-lg border border-border bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
 					value={selectedRole}
@@ -32,7 +32,7 @@ export default function UserFilters({
 			</div>
 
 			{/* فیلتر وضعیت */}
-			<div className="w-40 ">
+			<div className="w-36 ">
 				<select
 					className="w-full py-2 px-3 rounded-lg border border-border bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
 					value={selectedStatus}

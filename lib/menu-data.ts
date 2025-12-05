@@ -17,39 +17,41 @@ export const menuData: MenuItem[] = [
 		id: 'users',
 		label: 'کاربران',
 		icon: 'Users',
-		children: [
-			{
-				id: 'users-list',
-				label: 'لیست کاربران',
-				icon: 'List',
-				href: '/dashboard/users',
-			},
-			{
-				id: 'users-add',
-				label: 'افزودن کاربر',
-				icon: 'UserPlus',
-				href: '/dashboard/users/new',
-			},
-		],
+		href: '/dashboard/users',
+		// children: [
+		// 	{
+		// 		id: 'users-list',
+		// 		label: 'لیست کاربران',
+		// 		icon: 'List',
+		// 		href: '/dashboard/users',
+		// 	},
+		// 	{
+		// 		id: 'users-add',
+		// 		label: 'افزودن کاربر',
+		// 		icon: 'UserPlus',
+		// 		href: '/dashboard/users/new',
+		// 	},
+		// ],
 	},
 	{
 		id: 'products',
 		label: 'محصولات',
 		icon: 'Package',
-		children: [
-			{
-				id: 'products-list',
-				label: 'لیست محصولات',
-				icon: 'List',
-				href: '/dashboard/products',
-			},
-			{
-				id: 'products-add',
-				label: 'افزودن محصول',
-				icon: 'PackagePlus',
-				href: '/dashboard/products/add',
-			},
-		],
+		href: '/dashboard/products',
+		// children: [
+		// 	{
+		// 		id: 'products-list',
+		// 		label: 'لیست محصولات',
+		// 		icon: 'List',
+		// 		href: '/dashboard/products',
+		// 	},
+		// 	{
+		// 		id: 'products-add',
+		// 		label: 'افزودن محصول',
+		// 		icon: 'PackagePlus',
+		// 		href: '/dashboard/products/add',
+		// 	},
+		// ],
 	},
 	{
 		id: 'orders',

@@ -4,13 +4,15 @@ import { User } from '@/lib/mock-data/users';
 import Image from 'next/image';
 import { Edit, Trash2, MoreVertical } from 'lucide-react';
 import { useState } from 'react';
+import { formatDate } from '@/utils/formatDate';
 
 interface UserRowProps {
 	user: User;
 	onDeleteUser: () => void;
+	onEditUser: () => void;
 }
 
-export default function UserRow({ user, onDeleteUser }: UserRowProps) {
+export default function UserRow({ user, onDeleteUser, onEditUser }: UserRowProps) {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	// ✅ استفاده از دیکشنری‌های مرکزی از mock-data
@@ -81,12 +83,14 @@ export default function UserRow({ user, onDeleteUser }: UserRowProps) {
 
 			{/* ستون تاریخ عضویت */}
 			<td className="px-6 py-4">
-				<span className="text-sm text-text-secondary">{user.createdAt}</span>
+				<span className="text-sm text-text-secondary">{formatDate(user.createdAt)}</span>
 			</td>
 
 			{/* ستون آخرین ورود */}
 			<td className="px-6 py-4">
-				<span className="text-sm text-text-secondary">{user.lastLogin || 'هرگز'}</span>
+				<span className="text-sm text-text-secondary">
+					{user.lastLogin ? formatDate(user.lastLogin) : 'هرگز'}
+				</span>
 			</td>
 
 			{/* ستون عملیات */}
@@ -94,6 +98,7 @@ export default function UserRow({ user, onDeleteUser }: UserRowProps) {
 				<div className="flex items-center justify-center gap-2">
 					{/* دکمه ویرایش */}
 					<button
+						onClick={onEditUser}
 						className="p-2 hover:bg-bg-secondary rounded-lg transition-colors text-text-secondary hover:text-blue-600"
 						title="ویرایش">
 						<Edit className="w-4 h-4" />

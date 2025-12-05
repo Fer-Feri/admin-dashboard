@@ -2,10 +2,12 @@
 
 import { useMemo, useState } from 'react';
 import { mockUsers, User } from '@/lib/mock-data/users';
-import UserSearch from './UserSearch';
-import UserFilters from './UserFilters';
+import UserSearch from '../../../components/users/UserSearch';
+import UserFilters from '../../../components/users/UserFilters';
 import UsersTable from '@/components/users/UserTable';
 import ConfirmModal from '@/components/common/ConfirmModal';
+import EditUserForm from '@/components/users/EditUserForm';
+import AddUserForm from '../../../components/users/AddUserForm';
 
 export default function Users() {
 	const [users, setUsers] = useState<User[]>(mockUsers);
@@ -17,6 +19,11 @@ export default function Users() {
 
 	const [deletedId, setDeletedId] = useState<string | null>(null);
 	const [isOpen, setIsOpen] = useState(false);
+
+	const [editingUser, setEditingUser] = useState<User | null>(null);
+	const [isEditingFormOpen, setIsEditingFormOpen] = useState(false);
+
+	const [isAddUserFormOpen, setIsAddUserFormOpen] = useState(false);
 
 	const itemsPerPage = 10;
 
@@ -62,6 +69,9 @@ export default function Users() {
 		setCurrentPage(1);
 	};
 
+	// -----------------------------------------
+	// ------------------DELETE-----------------------
+	// -----------------------------------------
 	// باز کردن مودال قبل از حذف
 	const openModal = (userId: string) => {
 		setDeletedId(userId);
@@ -85,18 +95,73 @@ export default function Users() {
 		setDeletedId(null);
 	};
 
+	// -----------------------------------------
+	// ------------------EDIT-----------------------
+	// -----------------------------------------
+	const openEditForm = (user: User) => {
+		setEditingUser(user);
+		setIsEditingFormOpen(true);
+	};
+	//تابع ویرایش
+	const handleEditUser = (updatedUser: User) => {
+		setUsers(users.map((user) => (user.id === updatedUser.id ? updatedUser : user)));
+		setIsEditingFormOpen(false);
+		setEditingUser(null);
+	};
+
+	// -----------------------------------------
+	// ------------------ADD USER-----------------------
+	// -----------------------------------------
+
+	const openAddUserForm = () => {
+		setIsAddUserFormOpen(true);
+	};
+
+	const closeAddUserForm = () => {
+		setIsAddUserFormOpen(false);
+	};
+
+	const handleAddUserForm = (newUser: Omit<User, 'id' | 'createdAt'>) => {
+		const newUserWithId: User = {
+			...newUser,
+			id: Date.now().toString(),
+			createdAt: new Date().toISOString(),
+		};
+
+		setUsers([newUserWithId, ...users]);
+
+		setIsAddUserFormOpen(false);
+	};
+
+	// -----------------------------------------
+	// -----------------------------------------
+	// -----------------------------------------
 	return (
 		<div className="space-y-6">
-			<div className="flex items-center gap-4 flex-wrap">
-				<UserSearch value={searchQuery} onChange={handleSearchChange} />
-				<UserFilters
-					selectedRole={selectedRole}
-					onRoleChange={handleRoleChange}
-					selectedStatus={selectedStatus}
-					onStatusChange={handleStatusChange}
-				/>
+			{/* بخش جستجو / فیلتر + دکمه افزودن */}
+			<div className="flex items-center justify-between flex-wrap gap-4">
+				{/* Search + Filters */}
+				<div className="flex items-center gap-4 flex-wrap">
+					<UserSearch value={searchQuery} onChange={handleSearchChange} />
+
+					<UserFilters
+						selectedRole={selectedRole}
+						onRoleChange={handleRoleChange}
+						selectedStatus={selectedStatus}
+						onStatusChange={handleStatusChange}
+					/>
+				</div>
+
+				{/* دکمه افزودن کاربر */}
+				<button
+					onClick={openAddUserForm}
+					className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+					<span>+</span>
+					<span>افزودن کاربر</span>
+				</button>
 			</div>
 
+			{/* جدول کاربران */}
 			<UsersTable
 				users={paginatedUsers}
 				currentPage={currentPage}
@@ -104,8 +169,24 @@ export default function Users() {
 				totalUsers={filteredUsers.length}
 				onPageChange={handlePageChange}
 				onDeleteUser={openModal}
+				onEditUser={openEditForm}
 			/>
 
+			{/* Modal ویرایش */}
+			{isEditingFormOpen && editingUser && (
+				<EditUserForm
+					user={editingUser}
+					onSave={handleEditUser}
+					onCancel={() => setIsEditingFormOpen(false)}
+				/>
+			)}
+
+			{/* Modal افزودن کاربر */}
+			{isAddUserFormOpen && (
+				<AddUserForm onSave={handleAddUserForm} onCancel={closeAddUserForm} />
+			)}
+
+			{/* Modal تأیید حذف */}
 			<ConfirmModal
 				isOpen={isOpen}
 				title="حذف کاربر"

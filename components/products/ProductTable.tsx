@@ -1,27 +1,27 @@
 'use client';
 
-import { User } from '@/lib/mock-data/users';
-import UserRow from './UserRow';
+import { Product } from '@/lib/mock-data/products';
+import ProductRow from './ProductRow';
 
-interface UsersTableProps {
-	users: User[];
+interface ProductTableProps {
+	products: Product[];
 	currentPage: number;
 	totalPages: number;
-	totalUsers: number;
+	totalProducts: number;
 	onPageChange: (page: number) => void;
-	onDeleteUser: (userId: string) => void;
-	onEditUser: (user: User) => void;
+	onDeleteProduct: (productId: string) => void;
+	onEditProduct: (product: Product) => void;
 }
 
-export default function UsersTable({
-	users,
+export default function ProductTable({
+	products,
 	currentPage,
 	totalPages,
-	totalUsers,
+	totalProducts,
 	onPageChange,
-	onDeleteUser,
-	onEditUser,
-}: UsersTableProps) {
+	onDeleteProduct,
+	onEditProduct,
+}: ProductTableProps) {
 	return (
 		<div className="bg-bg-secondary rounded-lg shadow-md overflow-hidden">
 			<div className="overflow-x-auto">
@@ -29,19 +29,22 @@ export default function UsersTable({
 					<thead className="bg-bg-tertiary border-b border-border">
 						<tr>
 							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
-								کاربر
+								محصول
 							</th>
 							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
-								نقش
+								دسته‌بندی
+							</th>
+							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
+								قیمت
+							</th>
+							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
+								موجودی
 							</th>
 							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
 								وضعیت
 							</th>
 							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
-								تاریخ عضویت
-							</th>
-							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
-								آخرین ورود
+								تاریخ ایجاد
 							</th>
 							<th className="px-6 py-3 text-right text-sm font-medium text-text-secondary">
 								عملیات
@@ -50,21 +53,21 @@ export default function UsersTable({
 					</thead>
 
 					<tbody className="divide-y divide-border">
-						{users.length === 0 ? (
+						{products.length === 0 ? (
 							<tr>
 								<td
-									colSpan={6}
+									colSpan={7}
 									className="px-6 py-8 text-center text-text-secondary">
-									هیچ کاربری یافت نشد
+									هیچ محصولی یافت نشد
 								</td>
 							</tr>
 						) : (
-							users.map((user) => (
-								<UserRow
-									key={user.id}
-									user={user}
-									onDeleteUser={() => onDeleteUser(user.id)}
-									onEditUser={() => onEditUser(user)}
+							products.map((product) => (
+								<ProductRow
+									key={product.id}
+									product={product}
+									onDeleteProduct={() => onDeleteProduct(product.id)}
+									onEditProduct={() => onEditProduct(product)}
 								/>
 							))
 						)}
@@ -72,10 +75,10 @@ export default function UsersTable({
 				</table>
 			</div>
 
-			{totalUsers > 0 && (
+			{totalProducts > 0 && (
 				<div className="flex items-center justify-between px-6 py-4 border-t border-border bg-bg-secondary">
 					<p className="text-sm text-text-secondary">
-						صفحه {currentPage} از {totalPages} — مجموع {totalUsers} کاربر
+						صفحه {currentPage} از {totalPages} — مجموع {totalProducts} محصول
 					</p>
 
 					<div className="flex items-center gap-2">
