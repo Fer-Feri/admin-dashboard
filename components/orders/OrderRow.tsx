@@ -60,7 +60,7 @@ export default function OrderRow({ order, onEdit, onDelete, onView }: OrderRowPr
 	};
 
 	return (
-		<tr className="border-b border-border hover:bg-muted/50 transition-colors">
+		<tr className="border-b border-border transition-colors bg-card">
 			<td className="px-6 py-4 text-text-primary">{order.orderNumber}</td>
 			<td className="px-6 py-4 text-text-primary">{order.customerName}</td>
 			<td className="px-6 py-4 text-text-secondary">{order.customerPhone}</td>

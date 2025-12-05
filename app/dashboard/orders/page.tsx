@@ -209,7 +209,7 @@ export default function OrdersPage() {
 				/>
 
 				{totalPages > 1 && (
-					<div className="flex items-center justify-between px-6 py-4 border-t border-border">
+					<div className="flex items-center justify-between px-6 py-4 border-t border-border bg-card">
 						<div className="text-sm text-text-secondary">
 							نمایش {indexOfFirstItem + 1} تا{' '}
 							{Math.min(indexOfLastItem, filteredOrders.length)} از{' '}

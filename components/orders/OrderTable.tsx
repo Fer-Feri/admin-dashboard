@@ -13,12 +13,12 @@ interface OrderTableProps {
 	onSearchChange: (value: string) => void;
 	statusFilter: OrderStatus | 'all';
 	onStatusFilterChange: (value: OrderStatus | 'all') => void;
-	paymentFilter: PaymentStatus | 'all'; // ✅ اضافه شد
-	onPaymentFilterChange: (value: PaymentStatus | 'all') => void; // ✅ اضافه شد
-	dateFrom: string; // ✅ اضافه شد
-	onDateFromChange: (value: string) => void; // ✅ اضافه شد
-	dateTo: string; // ✅ اضافه شد
-	onDateToChange: (value: string) => void; // ✅ اضافه شد
+	paymentFilter: PaymentStatus | 'all';
+	onPaymentFilterChange: (value: PaymentStatus | 'all') => void;
+	dateFrom: string;
+	onDateFromChange: (value: string) => void;
+	dateTo: string;
+	onDateToChange: (value: string) => void;
 	onEdit: (order: Order) => void;
 	onDelete: (order: Order) => void;
 	onView: (order: Order) => void;
@@ -40,10 +40,14 @@ export default function OrderTable({
 	onDelete,
 	onView,
 }: OrderTableProps) {
+	// استایل مشترک برای inputها و selectها
+	const inputBaseClass =
+		'px-3 py-2 bg-background border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors';
+
 	return (
 		<div>
 			{/* Header با فیلترها */}
-			<div className="p-6 space-y-4 border-b border-border">
+			<div className="p-6 space-y-4 border-b border-border bg-card">
 				{/* Search Box */}
 				<div className="relative">
 					<Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-secondary w-5 h-5" />
@@ -52,7 +56,7 @@ export default function OrderTable({
 						value={searchTerm}
 						onChange={(e) => onSearchChange(e.target.value)}
 						placeholder="جستجو بر اساس شماره سفارش، نام یا شماره تماس..."
-						className="w-full pr-10 pl-4 py-2 bg-background border border-border rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary"
+						className="w-full pr-10 pl-4 py-2 bg-background border border-border rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
 					/>
 				</div>
 
@@ -69,7 +73,7 @@ export default function OrderTable({
 						onChange={(e) =>
 							onStatusFilterChange(e.target.value as OrderStatus | 'all')
 						}
-						className="px-3 py-2 bg-background border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary">
+						className={inputBaseClass}>
 						<option value="all">همه سفارشات</option>
 						<option value="pending">در انتظار</option>
 						<option value="processing">در حال پردازش</option>
@@ -83,7 +87,7 @@ export default function OrderTable({
 						onChange={(e) =>
 							onPaymentFilterChange(e.target.value as PaymentStatus | 'all')
 						}
-						className="px-3 py-2 bg-background border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary">
+						className={inputBaseClass}>
 						<option value="all">همه پرداخت‌ها</option>
 						<option value="paid">پرداخت شده</option>
 						<option value="unpaid">پرداخت نشده</option>
@@ -91,22 +95,26 @@ export default function OrderTable({
 					</select>
 
 					{/* تاریخ از */}
-					<input
-						type="date"
-						value={dateFrom}
-						onChange={(e) => onDateFromChange(e.target.value)}
-						placeholder="از تاریخ"
-						className="px-3 py-2 bg-background border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
-					/>
+					<div className="flex items-center gap-2">
+						<span className="text-sm text-text-secondary">از:</span>
+						<input
+							type="date"
+							value={dateFrom}
+							onChange={(e) => onDateFromChange(e.target.value)}
+							className={inputBaseClass}
+						/>
+					</div>
 
 					{/* تاریخ تا */}
-					<input
-						type="date"
-						value={dateTo}
-						onChange={(e) => onDateToChange(e.target.value)}
-						placeholder="تا تاریخ"
-						className="px-3 py-2 bg-background border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
-					/>
+					<div className="flex items-center gap-2">
+						<span className="text-sm text-text-secondary">تا:</span>
+						<input
+							type="date"
+							value={dateTo}
+							onChange={(e) => onDateToChange(e.target.value)}
+							className={inputBaseClass}
+						/>
+					</div>
 				</div>
 			</div>
 
@@ -141,7 +149,7 @@ export default function OrderTable({
 							</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody className="divide-y divide-border">
 						{orders.length > 0 ? (
 							orders.map((order) => (
 								<OrderRow

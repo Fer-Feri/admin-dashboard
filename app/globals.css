@@ -359,3 +359,162 @@ body {
 	outline: 2px solid var(--ring);
 	outline-offset: 2px;
 }
+
+/* ===========================
+   INPUT DATE STYLING
+=========================== */
+input[type='date'],
+input[type='datetime-local'],
+input[type='time'] {
+	color-scheme: light;
+	position: relative;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='datetime-local']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
+	filter: invert(0);
+	cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.2s ease;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator:hover,
+input[type='datetime-local']::-webkit-calendar-picker-indicator:hover,
+input[type='time']::-webkit-calendar-picker-indicator:hover {
+	opacity: 1;
+}
+
+/* Dark mode for date inputs */
+.dark input[type='date'],
+.dark input[type='datetime-local'],
+.dark input[type='time'] {
+	color-scheme: dark;
+}
+
+.dark input[type='date']::-webkit-calendar-picker-indicator,
+.dark input[type='datetime-local']::-webkit-calendar-picker-indicator,
+.dark input[type='time']::-webkit-calendar-picker-indicator {
+	filter: invert(1);
+	opacity: 0.7;
+}
+
+.dark input[type='date']::-webkit-calendar-picker-indicator:hover,
+.dark input[type='datetime-local']::-webkit-calendar-picker-indicator:hover,
+.dark input[type='time']::-webkit-calendar-picker-indicator:hover {
+	opacity: 1;
+}
+
+/* Placeholder for date inputs */
+input[type='date']::-webkit-datetime-edit-text,
+input[type='date']::-webkit-datetime-edit-month-field,
+input[type='date']::-webkit-datetime-edit-day-field,
+input[type='date']::-webkit-datetime-edit-year-field {
+	color: var(--text-primary);
+}
+
+input[type='date']:invalid::-webkit-datetime-edit {
+	color: var(--text-secondary);
+}
+
+/* ===========================
+   SELECT ARROW STYLING
+=========================== */
+select {
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23525252' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: left 0.75rem center;
+	padding-left: 2.5rem;
+}
+
+.dark select {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a3a3a3' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+}
+
+/* ===========================
+   TOAST STYLING (آخرین بخش)
+=========================== */
+
+/* Container */
+.Toastify__toast-container {
+	font-family: var(--font-primary) !important;
+	z-index: 9999 !important;
+}
+
+/* Toast box */
+.Toastify__toast {
+	font-family: var(--font-primary) !important;
+	border-radius: 12px !important;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+	min-height: 64px !important;
+	padding: 16px !important;
+}
+
+/* Toast body */
+.Toastify__toast-body {
+	font-family: var(--font-primary) !important;
+	padding: 0 !important;
+	font-size: 14px !important;
+	line-height: 1.6 !important;
+}
+
+/* Success */
+.Toastify__toast--success {
+	background: #10b981 !important;
+	color: white !important;
+}
+
+/* Error */
+.Toastify__toast--error {
+	background: #ef4444 !important;
+	color: white !important;
+}
+
+/* Info */
+.Toastify__toast--info {
+	background: #3b82f6 !important;
+	color: white !important;
+}
+
+/* Warning */
+.Toastify__toast--warning {
+	background: #f59e0b !important;
+	color: white !important;
+}
+
+/* Progress bar */
+.Toastify__progress-bar {
+	height: 4px !important;
+}
+
+.Toastify__progress-bar--success {
+	background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.Toastify__progress-bar--error {
+	background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.Toastify__progress-bar--info {
+	background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.Toastify__progress-bar--warning {
+	background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Close button */
+.Toastify__close-button {
+	color: white !important;
+	opacity: 0.7 !important;
+}
+
+.Toastify__close-button:hover {
+	opacity: 1 !important;
+}
+
+/* Dark mode specifics (اگر نیاز دارید) */
+.dark .Toastify__toast {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
