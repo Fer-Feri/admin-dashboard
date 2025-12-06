@@ -36,7 +36,9 @@ export function MenuItem({ item, depth = 0, onItemClick }: MenuItemProps) {
 
 	const content = (
 		<div
-			className={cn(menuItemVariants({ variant: getVariant(), depth }))}
+			className={cn(
+				menuItemVariants({ variant: getVariant(), depth: Math.min(depth, 1) as 0 | 1 })
+			)}
 			onClick={() => hasChildren && setIsOpen(!isOpen)}>
 			{Icon && <Icon className="w-5 h-5 shrink-0" />}
 			<span className="flex-1">{item.label}</span>
