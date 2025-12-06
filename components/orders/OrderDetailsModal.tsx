@@ -107,8 +107,8 @@ export default function OrderDetailsModal({ order, onClose }: OrderDetailsModalP
 					{/* محصولات سفارش */}
 					<div>
 						<h3 className="font-semibold text-text-primary mb-3">محصولات سفارش</h3>
-						<div className="border border-border rounded-lg overflow-hidden">
-							<table className="w-full">
+						<div className="border border-border rounded-lg overflow-x-auto">
+							<table className="w-full min-w-[600px]">
 								<thead className="bg-muted">
 									<tr>
 										<th className="px-4 py-3 text-right text-xs font-medium text-text-secondary">
